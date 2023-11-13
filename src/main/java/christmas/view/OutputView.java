@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.constant.discount.DiscountValue;
 import christmas.util.FormatCurrencyUtil;
 
 public class OutputView {
@@ -20,13 +21,12 @@ public class OutputView {
 
     public void printPreviewOfEventBenefits() {
         println("12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
-        println("");
+        newLine();
     }
 
     public void printOrder(String formattedOrderList) {
         println("<주문 메뉴>");
         println(formattedOrderList);
-
     }
 
     public void printTotalOrderAmountBeforeDiscount(int totalPriceBeforeDiscount) {
@@ -46,7 +46,7 @@ public class OutputView {
 
     public void printTotalDiscounts(int totalDiscounts) {
         println("<총혜택 금액>");
-        if (totalDiscounts > 0) print("-");
+        if (totalDiscounts > DiscountValue.NO_DISCOUNT.getValue()) print("-");
         println(FormatCurrencyUtil.formatCurrency(totalDiscounts));
     }
 
@@ -60,8 +60,21 @@ public class OutputView {
         println(badge);
     }
 
+    public void printEventNotice (int totalPriceBeforeDiscount){
+        if (totalPriceBeforeDiscount < DiscountValue.MINIMUM_DISCOUNT_THRESHOLD.getValue()) {
+            newLine();
+            println("<이벤트 주의 사항>");
+            println("총주문 금액 10,000원 이상부터 이벤트가 적용됩니다.");
+        }
+
+    }
+
     private void println(String message) {
         System.out.println(message);
+    }
+
+    private void newLine() {
+        System.out.println();
     }
 
     public void printErrorMessage(String message) {
