@@ -1,6 +1,8 @@
 package christmas.domain;
 
+import christmas.constant.complimentary.ComplimentaryDescription;
 import christmas.constant.complimentary.ComplimentaryItem;
+import christmas.util.ComplimentaryItemFormatter;
 
 public class ComplimentaryManager {
 
@@ -9,15 +11,12 @@ public class ComplimentaryManager {
 
         for (ComplimentaryItem item : ComplimentaryItem.values()) {
             if (totalPriceBeforeDiscount >= item.getQualifyingAmount()) {
-                complimentaryItems.append(item.getName())
-                        .append(" ")
-                        .append(item.getQuantity())
-                        .append("개\n");
+                complimentaryItems.append(ComplimentaryItemFormatter.format(item));
             }
         }
 
         if (complimentaryItems.isEmpty()) {
-            complimentaryItems.append("없음\n");
+            complimentaryItems.append(ComplimentaryDescription.NO_COMPLIMENTARY.getDescription());
         }
         return complimentaryItems.toString();
     }
