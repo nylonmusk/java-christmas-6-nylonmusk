@@ -1,4 +1,4 @@
-package christmas.constant;
+package christmas.constant.calendar;
 
 public enum SpecialDay {
     THIRD(3),
