@@ -1,13 +1,9 @@
 package christmas.domain;
 
-import christmas.constant.Badge;
+import christmas.constant.badge.Badge;
 
 public class BadgeManager {
     public String getBadge(int totalDiscounts) {
-        String badge = Badge.getBadgeByAmount(totalDiscounts);
-        if (!badge.isEmpty()) {
-            return badge;
-        }
-        return "";
+        return Badge.getBadgeByAmount(totalDiscounts);
     }
 }
