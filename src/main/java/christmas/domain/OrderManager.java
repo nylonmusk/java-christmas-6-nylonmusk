@@ -5,7 +5,10 @@ import christmas.constant.menu.Beverage;
 import christmas.constant.menu.Dessert;
 import christmas.constant.menu.MainCourse;
 import christmas.constant.menu.MenuItem;
+import christmas.constant.order.OrderRegex;
+import christmas.util.OrderFormatter;
 import christmas.validator.OrderValidator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,21 +60,17 @@ public class OrderManager {
     }
 
     public String formatOrderList(String orderWithComma) {
-        StringBuilder orderBuilder = new StringBuilder();
         processOrders(orderWithComma);
-
-        orderedItems.forEach((food, quantity) ->
-                orderBuilder.append(food).append(" ").append(quantity).append("개\n"));
 
         orderValidator.validate(orderedItems);
 
-        return orderBuilder.toString();
+        return OrderFormatter.format(orderedItems);
     }
 
     private void processOrders(String orders) {
-        String[] orderArray = orders.split(",");
+        String[] orderArray = orders.split(OrderRegex.COMMA_SPACE.getPattern());
         for (String order : orderArray) {
-            String[] orderParts = order.trim().split("-");
+            String[] orderParts = order.trim().split(OrderRegex.HYPHEN.getPattern());
 
             String item = orderParts[0].trim();
             int quantity = Integer.parseInt(orderParts[1].trim());

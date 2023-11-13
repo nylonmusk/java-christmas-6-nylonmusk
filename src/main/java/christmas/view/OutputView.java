@@ -1,72 +1,73 @@
 package christmas.view;
 
+import christmas.constant.calendar.CurrentYearMonth;
 import christmas.constant.discount.DiscountValue;
-import christmas.util.FormatCurrencyUtil;
+import christmas.constant.message.OutputViewMessage;
+import christmas.util.CurrencyFormatter;
 
 public class OutputView {
     public OutputView() {
     }
 
     public void printWelcomeMessage() {
-        println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
+        println(OutputViewMessage.WELCOME.formatWithMonth(CurrentYearMonth.MONTH.getDate()));
     }
 
     public void askForRestaurantVisitDate() {
-        println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
+        println(OutputViewMessage.ASK_VISIT_DATE.formatWithMonth(CurrentYearMonth.MONTH.getDate()));
     }
 
     public void requestMenuOrder() {
-        println("주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)");
+        println(OutputViewMessage.REQUEST_MENU_ORDER.getMessage());
     }
 
-    public void printPreviewOfEventBenefits() {
-        println("12월 3일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
+    public void printPreviewOfEventBenefits(int day) {
+        println(OutputViewMessage.EVENT_BENEFITS_PREVIEW.formatWithMonthAndDay(CurrentYearMonth.MONTH.getDate(), day));
         newLine();
     }
 
     public void printOrder(String formattedOrderList) {
-        println("<주문 메뉴>");
+        println(OutputViewMessage.ORDER_MENU.getMessage());
         println(formattedOrderList);
     }
 
     public void printTotalOrderAmountBeforeDiscount(int totalPriceBeforeDiscount) {
-        println("<할인 전 총주문 금액>");
-        println(FormatCurrencyUtil.formatCurrency(totalPriceBeforeDiscount));
+        println(OutputViewMessage.TOTAL_AMOUNT_BEFORE_DISCOUNT.getMessage());
+        println(CurrencyFormatter.formatCurrencyWithNewLine(totalPriceBeforeDiscount));
     }
 
     public void printComplimentaryItems(String complimentaryItems) {
-        println("<증정 메뉴>");
+        println(OutputViewMessage.COMPLIMENTARY_ITEMS.getMessage());
         println(complimentaryItems);
     }
 
     public void printDetailBenefits(String discountInformation){
-        println("<혜택 내역>");
+        println(OutputViewMessage.DETAIL_BENEFITS.getMessage());
         println(discountInformation);
     }
 
     public void printTotalDiscounts(int totalDiscounts) {
-        println("<총혜택 금액>");
+        println(OutputViewMessage.TOTAL_DISCOUNTS.getMessage());
         if (totalDiscounts > DiscountValue.NO_DISCOUNT.getValue()) print("-");
-        println(FormatCurrencyUtil.formatCurrency(totalDiscounts));
+        println(CurrencyFormatter.formatCurrencyWithNewLine(totalDiscounts));
     }
 
     public void printFinalOrderAmount (int finalPrice){
-        println("<할인 후 예상 결제 금액>");
-        println(FormatCurrencyUtil.formatCurrency(finalPrice));
+        println(OutputViewMessage.FINAL_ORDER_AMOUNT.getMessage());
+        println(CurrencyFormatter.formatCurrencyWithNewLine(finalPrice));
     }
 
     public void printBadge (String badge){
-        println("<12월 이벤트 배지>");
+        println(OutputViewMessage.EVENT_BADGE.formatWithMonth(CurrentYearMonth.MONTH.getDate()));
         println(badge);
     }
 
     public void printEventNotice (int totalPriceBeforeDiscount){
-        if (totalPriceBeforeDiscount < DiscountValue.MINIMUM_DISCOUNT_THRESHOLD.getValue()) {
+        if (totalPriceBeforeDiscount < DiscountValue.MINIMUM_DISCOUNT_QUALIFYING_AMOUNT.getValue()) {
             newLine();
-            println("<이벤트 주의 사항>");
-            println("총주문 금액 10,000원 이상부터 이벤트가 적용됩니다.");
+            println(OutputViewMessage.EVENT_NOTICE.getMessage());
+            println(OutputViewMessage.EVENT_NOTICE_DETAIL.formatWithMoney(CurrencyFormatter.formatCurrency(DiscountValue.MINIMUM_DISCOUNT_QUALIFYING_AMOUNT.getValue())));
         }
-
     }
 
     private void println(String message) {

@@ -5,6 +5,11 @@ import christmas.constant.menu.Beverage;
 import christmas.constant.menu.Dessert;
 import christmas.constant.menu.MainCourse;
 import christmas.constant.menu.MenuItem;
+import christmas.constant.message.ErrorMessage;
+import christmas.constant.order.OrderLimit;
+import christmas.constant.order.OrderRegex;
+
+import christmas.constant.regex.NumberRegex;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,37 +19,37 @@ import java.util.stream.Stream;
 public final class OrderValidator {
     public void validate(Map<String, Integer> orderedItems) {
         if (!areAllItemsValidMenuItems(orderedItems)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
         }
         if (!areQuantitiesValid(orderedItems)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
         }
 
         if (areAllItemsBeverage(orderedItems)) {
-            throw new IllegalArgumentException("[ERROR] 음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.BEVERAGE_ONLY_ORDER.getMessage());
         }
 
         if (validateMaximumItems(orderedItems)) {
-            throw new IllegalArgumentException("[ERROR] 메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.MAXIMUM_ITEMS_EXCEEDED.getMessage());
         }
     }
 
     public void validateOrderFormat(String orderWithComma) {
         Set<String> uniqueItems = new HashSet<>();
-        String[] orderedItems = orderWithComma.split(",\\s*");
+        String[] orderedItems = orderWithComma.split(OrderRegex.COMMA_SPACE.getPattern());
         for (String item : orderedItems) {
-            String[] parts = item.split("-");
+            String[] parts = item.split(OrderRegex.HYPHEN.getPattern());
 
             if (parts.length != 2) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문 형식입니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_FORMAT.getMessage());
             }
 
-            if (parts[0].trim().isEmpty() || !parts[1].trim().matches("\\d+")) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            if (parts[0].trim().isEmpty() || !parts[1].trim().matches(NumberRegex.DIGITS.getPattern())) {
+                throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
             }
 
             if (!uniqueItems.add(parts[0].trim())) {
-                throw new IllegalArgumentException("[ERROR] 중복된 메뉴 항목이 있습니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException(ErrorMessage.DUPLICATE_MENU_ITEM.getMessage());
             }
         }
     }
@@ -70,12 +75,12 @@ public final class OrderValidator {
         int totalQuantity = orderedItems.values().stream()
                 .mapToInt(Integer::intValue)
                 .sum();
-        return totalQuantity > 20;
+        return totalQuantity > OrderLimit.MAX_ITEMS.getValue();
     }
 
     private boolean areQuantitiesValid(Map<String, Integer> orderedItems) {
         return orderedItems.values().stream()
-                .allMatch(quantity -> quantity >= 1);
+                .allMatch(quantity -> quantity >= OrderLimit.MIN_QUANTITY.getValue());
     }
 
     private boolean areAllItemsBeverage(Map<String, Integer> orderedItems) {

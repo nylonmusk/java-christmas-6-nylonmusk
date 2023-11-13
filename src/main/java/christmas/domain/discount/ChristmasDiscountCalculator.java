@@ -5,10 +5,10 @@ import christmas.constant.discount.DiscountValue;
 public class ChristmasDiscountCalculator {
 
     public int calculate(int day) {
-        if (day <= 25) {
-            return DiscountValue.START_DISCOUNT.getValue() + (day - 1) * DiscountValue.DAILY_INCREMENT.getValue();
+        if (day <= DiscountValue.CHRISTMAS_EVENT_DEADLINE.getValue()) {
+            return DiscountValue.START_CHRISTMAS_DISCOUNT.getValue() + (day - 1) * DiscountValue.CHRISTMAS_DISCOUNT_DAILY_INCREMENT.getValue();
         }
-        return 0;
+        return DiscountValue.NO_DISCOUNT.getValue();
     }
 }
 

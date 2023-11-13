@@ -1,6 +1,6 @@
 package christmas.domain.discount;
 
-import christmas.constant.SpecialDay;
+import christmas.constant.calendar.SpecialDay;
 import christmas.constant.discount.DiscountValue;
 
 public class SpecialDiscountCalculator {
@@ -9,7 +9,7 @@ public class SpecialDiscountCalculator {
         if (SpecialDay.CHRISTMAS.isTodaySpecial(day)) {
             return DiscountValue.SPECIAL_DISCOUNT.getValue();
         }
-        return 0;
+        return DiscountValue.NO_DISCOUNT.getValue();
     }
 }
 
