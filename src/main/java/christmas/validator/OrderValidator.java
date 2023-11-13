@@ -40,7 +40,7 @@ public final class OrderValidator {
             }
 
             if (parts[0].trim().isEmpty() || !parts[1].trim().matches("\\d+")) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문 항목입니다. 다시 입력해 주세요.");
+                throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
             }
 
             if (!uniqueItems.add(parts[0].trim())) {
