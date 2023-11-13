@@ -2,8 +2,8 @@ package christmas.controller;
 
 import christmas.domain.BadgeManager;
 import christmas.domain.ComplimentaryManager;
-import christmas.domain.DiscountManager;
 import christmas.domain.OrderManager;
+import christmas.service.DiscountService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -11,8 +11,9 @@ public class Controller {
     OutputView outputView = new OutputView();
     InputView inputView = new InputView();
     OrderManager orderManager = new OrderManager();
-    DiscountManager discountManager = new DiscountManager();
+    DiscountService discountService = new DiscountService();
     ComplimentaryManager complimentaryManager = new ComplimentaryManager();
+    BadgeManager badgeManager = new BadgeManager();
 
     public Controller() {
 
@@ -38,29 +39,24 @@ public class Controller {
         outputView.printTotalOrderAmountBeforeDiscount(totalPriceBeforeDiscount);
         String complimentaryItems = complimentaryManager.getComplimentary(totalPriceBeforeDiscount);
         outputView.printComplimentaryItems(complimentaryItems);
-        // 1. 총주문 금액 10,000원 이상부터 이벤트가 적용됩니다.
-        // 2. 음료만 주문 시, 주문할 수 없습니다.
 
-        String discountInformation = discountManager.describeDiscounts(day, dessertQuantity, mainCourseQuantity,
+        String discountInformation = discountService.describeDiscounts(day, dessertQuantity, mainCourseQuantity,
                 totalPriceBeforeDiscount);
         outputView.printDetailBenefits(discountInformation);
 
-        int totalDiscounts = discountManager.calculateTotalDiscounts(day, dessertQuantity, mainCourseQuantity,
+        int totalDiscounts = discountService.calculateTotalDiscounts(day, dessertQuantity, mainCourseQuantity,
                 totalPriceBeforeDiscount);
         outputView.printTotalDiscounts(totalDiscounts);
 
-        int finalPrice = discountManager.calculateFinalPrice(totalPriceBeforeDiscount,
-                totalDiscounts - discountManager.getComplimentaryDiscount(totalPriceBeforeDiscount));
+        int finalPrice = discountService.calculateFinalPrice(totalPriceBeforeDiscount,
+                discountService.getDiscountWithoutComplimentary(day, dessertQuantity, mainCourseQuantity));
         outputView.printFinalOrderAmount(finalPrice);
 
-        BadgeManager badgeManager = new BadgeManager();
+
         String badge = badgeManager.getBadge(totalDiscounts);
         outputView.printBadge(badge);
 
-        if (totalPriceBeforeDiscount < 10000) {
-            System.out.println("\n<이벤트 주의 사항>");
-            System.out.println("총주문 금액 10,000원 이상부터 이벤트가 적용됩니다.");
-        }
+        outputView.printEventNotice(totalPriceBeforeDiscount);
 
     }
 }
