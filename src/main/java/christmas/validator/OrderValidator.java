@@ -6,6 +6,7 @@ import christmas.constant.menu.Dessert;
 import christmas.constant.menu.MainCourse;
 import christmas.constant.menu.MenuItem;
 import christmas.constant.message.ErrorMessage;
+import christmas.constant.order.OrderFormat;
 import christmas.constant.order.OrderLimit;
 import christmas.constant.order.OrderRegex;
 import christmas.constant.regex.NumberRegex;
@@ -44,7 +45,7 @@ public final class OrderValidator {
 
     private void validateItemFormat(String item) {
         String[] parts = item.split(OrderRegex.HYPHEN.getPattern());
-        if (parts.length != 2) {
+        if (parts.length != OrderFormat.EXPECTED_PARTS_COUNT.getValue()) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_FORMAT.getMessage());
         }
     }
