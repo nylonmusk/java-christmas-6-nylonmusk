@@ -5,7 +5,6 @@ public enum DiscountDescription {
     WEEKDAY_DISCOUNT("평일 할인: -"),
     WEEKEND_DISCOUNT("주말 할인: -"),
     SPECIAL_DISCOUNT("특별 할인: -"),
-    COMPLIMENTARY_DISCOUNT("증정 이벤트: -"),
     NO_DISCOUNT("없음\n"),
     EMPTY("");
 
