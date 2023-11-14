@@ -1,31 +1,33 @@
 package christmas.controller;
 
-import christmas.domain.MenuItemRepository;
 import christmas.domain.OrderCalculator;
 import christmas.domain.OrderedItems;
 import christmas.service.OrderService;
 import christmas.service.DiscountService;
 import christmas.domain.BadgeManager;
 import christmas.domain.ComplimentaryManager;
-import christmas.validator.OrderValidator;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
 public class Controller {
-    private final OutputView outputView = new OutputView();
-    private final InputView inputView = new InputView();
+    private final OutputView outputView;
+    private final InputView inputView;
     private final OrderService orderService;
-    private final DiscountService discountService = new DiscountService();
-    private final ComplimentaryManager complimentaryManager = new ComplimentaryManager();
-    private final BadgeManager badgeManager = new BadgeManager();
+    private final DiscountService discountService;
+    private final ComplimentaryManager complimentaryManager;
+    private final BadgeManager badgeManager;
     private final OrderCalculator orderCalculator;
-    private final MenuItemRepository menuItemRepository = new MenuItemRepository();
 
-    public Controller() {
-        OrderValidator orderValidator = new OrderValidator();
-        this.orderCalculator = new OrderCalculator(menuItemRepository);
-        this.orderService = new OrderService(orderValidator);
+    public Controller(ControllerBuilder builder) {
+        this.outputView = builder.getOutputView();
+        this.inputView = builder.getInputView();
+        this.orderService = builder.getOrderService();
+        this.discountService = builder.getDiscountService();
+        this.complimentaryManager = builder.getComplimentaryManager();
+        this.badgeManager = builder.getBadgeManager();
+        this.orderCalculator = builder.getOrderCalculator();
     }
+
 
     public void run() {
         outputView.printWelcomeMessage();
