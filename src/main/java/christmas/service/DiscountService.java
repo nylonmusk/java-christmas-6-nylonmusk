@@ -12,11 +12,11 @@ import christmas.util.CurrencyFormatter;
 
 public class DiscountService {
 
-    private ChristmasDiscountCalculator christmasDiscountCalculator;
-    private WeekdayDiscountCalculator weekdayDiscountCalculator;
-    private WeekendDiscountCalculator weekendDiscountCalculator;
-    private SpecialDiscountCalculator specialDiscountCalculator;
-    private ComplimentaryDiscountCalculator complimentaryDiscountCalculator;
+    private final ChristmasDiscountCalculator christmasDiscountCalculator;
+    private final WeekdayDiscountCalculator weekdayDiscountCalculator;
+    private final WeekendDiscountCalculator weekendDiscountCalculator;
+    private final SpecialDiscountCalculator specialDiscountCalculator;
+    private final ComplimentaryDiscountCalculator complimentaryDiscountCalculator;
 
     public DiscountService() {
         this.christmasDiscountCalculator = new ChristmasDiscountCalculator();
