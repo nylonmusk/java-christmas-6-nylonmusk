@@ -14,6 +14,10 @@ public enum SpecialDay {
         this.day = day;
     }
 
+    public int getDay() {
+        return day;
+    }
+
     public boolean isTodaySpecial(int day) {
         for (SpecialDay specialDay : SpecialDay.values()) {
             if (specialDay.day == day) {
