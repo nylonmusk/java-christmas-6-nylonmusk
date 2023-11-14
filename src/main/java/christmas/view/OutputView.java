@@ -3,12 +3,10 @@ package christmas.view;
 import christmas.constant.calendar.CurrentYearMonth;
 import christmas.constant.discount.DiscountValue;
 import christmas.constant.message.OutputViewMessage;
+import christmas.constant.order.OrderRegex;
 import christmas.util.CurrencyFormatter;
 
 public class OutputView {
-
-    public OutputView() {
-    }
 
     public void printWelcomeMessage() {
         println(OutputViewMessage.WELCOME.formatWithMonth(CurrentYearMonth.MONTH.getDate()));
@@ -50,7 +48,7 @@ public class OutputView {
     public void printTotalDiscounts(int totalDiscounts) {
         println(OutputViewMessage.TOTAL_DISCOUNTS.getMessage());
         if (totalDiscounts > DiscountValue.NO_DISCOUNT.getValue()) {
-            print("-");
+            print(OrderRegex.HYPHEN.getPattern());
         }
         println(CurrencyFormatter.formatCurrencyWithNewLine(totalDiscounts));
     }
