@@ -1,6 +1,7 @@
 package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import christmas.util.StringToIntConverter;
 import christmas.validator.DayValidator;
 import christmas.validator.OrderValidator;
 
@@ -12,9 +13,9 @@ public class InputView {
     public int readDay() {
         try {
             outputView.askForRestaurantVisitDate();
-            String input = getInput();
+            String input = getInput().trim();
             dayValidator.validate(input);
-            return Integer.parseInt(input);
+            return StringToIntConverter.parseInt(input);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e.getMessage());
             return readDay();
