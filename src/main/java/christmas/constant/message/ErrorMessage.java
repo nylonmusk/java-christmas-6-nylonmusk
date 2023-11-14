@@ -7,7 +7,10 @@ public enum ErrorMessage {
     BEVERAGE_ONLY_ORDER("음료만 주문 시, 주문할 수 없습니다. 다시 입력해 주세요."),
     MAXIMUM_ITEMS_EXCEEDED("메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요."),
 
-    INVALID_DATE("유효하지 않은 날짜입니다. 다시 입력해 주세요.");
+    INVALID_DATE("유효하지 않은 날짜입니다. 다시 입력해 주세요."),
+
+    MISSING_OBJECT("Controller 생성에 필요한 모든 필드가 설정되어야 합니다.");
+
 
     private final String message;
 
