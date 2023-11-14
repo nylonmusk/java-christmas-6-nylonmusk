@@ -30,11 +30,17 @@ public class Controller {
     public void run() {
         outputView.printWelcomeMessage();
         int day = inputView.readDay();
-
         OrderedItems orderedItems = getOrderedItems(day);
         processOrder(orderedItems);
-        printDiscountInfo(day, orderedItems);
-        printFinalOrderResults(day, orderedItems);
+
+        int dessertQuantity = orderCalculator.countDessertQuantity(orderedItems);
+        int mainQuantity = orderCalculator.countMainCourseQuantity(orderedItems);
+        printDiscountInfo(day, orderedItems, dessertQuantity, mainQuantity);
+
+        int totalDiscounts = printFinalOrderResults(day, orderedItems);
+        printFinalPrice(day, dessertQuantity, mainQuantity, orderedItems);
+        printBadge(totalDiscounts);
+        printEventNotice(orderedItems);
     }
 
     private OrderedItems getOrderedItems(int day) {
@@ -62,35 +68,39 @@ public class Controller {
         outputView.printComplimentaryItems(complimentaryItems);
     }
 
-    private void printDiscountInfo(int day, OrderedItems orderedItems) {
-        int dessertQuantity = orderCalculator.countDessertQuantity(orderedItems);
-        int mainCourseQuantity = orderCalculator.countMainCourseQuantity(orderedItems);
+    private void printDiscountInfo(int day, OrderedItems orderedItems, int dessertQuantity, int mainQuantity) {
 
-        String discountInformation = discountService.describeDiscounts(day, dessertQuantity, mainCourseQuantity,
+        String discountInformation = discountService.describeDiscounts(day, dessertQuantity, mainQuantity,
                 orderCalculator.calculateTotalPriceBeforeDiscount(orderedItems));
         outputView.printDetailBenefits(discountInformation);
     }
 
-    private void printFinalOrderResults(int day, OrderedItems orderedItems) {
+    private int printFinalOrderResults(int day, OrderedItems orderedItems) {
         int totalDiscounts = discountService.calculateTotalDiscounts(
                 day,
                 orderCalculator.countDessertQuantity(orderedItems),
                 orderCalculator.countMainCourseQuantity(orderedItems),
                 orderCalculator.calculateTotalPriceBeforeDiscount(orderedItems)
         );
-
         outputView.printTotalDiscounts(totalDiscounts);
 
-        int finalPrice = discountService.calculateFinalPrice(
-                orderCalculator.calculateTotalPriceBeforeDiscount(orderedItems)
-                , totalDiscounts
-        );
+        return totalDiscounts;
+    }
 
-        outputView.printFinalOrderAmount(finalPrice);
-
+    private void printBadge(int totalDiscounts) {
         String badge = badgeManager.getBadge(totalDiscounts);
         outputView.printBadge(badge);
+    }
 
+    private void printFinalPrice(int day, int dessertQuantity, int mainQuantity, OrderedItems orderedItems) {
+        int finalPrice = discountService.calculateFinalPrice(
+                orderCalculator.calculateTotalPriceBeforeDiscount(orderedItems),
+                discountService.getDiscountWithoutComplimentary(day, dessertQuantity, mainQuantity));
+
+        outputView.printFinalOrderAmount(finalPrice);
+    }
+
+    private void printEventNotice(OrderedItems orderedItems) {
         outputView.printEventNotice(orderCalculator.calculateTotalPriceBeforeDiscount(orderedItems));
     }
 }
