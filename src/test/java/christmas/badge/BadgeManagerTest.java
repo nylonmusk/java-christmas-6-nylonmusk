@@ -1,17 +1,18 @@
 package christmas.badge;
 
-import christmas.domain.BadgeManager;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.Arguments;
 
-import java.util.stream.Stream;
+import christmas.domain.BadgeManager;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.stream.Stream;
 
 class BadgeManagerTest {
 
-    private BadgeManager badgeManager = new BadgeManager();
+    private final BadgeManager badgeManager = new BadgeManager();
 
     private static Stream<Arguments> badgeData() {
         return Stream.of(

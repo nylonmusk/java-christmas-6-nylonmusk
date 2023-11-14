@@ -1,13 +1,14 @@
 package christmas.complimentary;
 
-import christmas.domain.ComplimentaryManager;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import christmas.domain.ComplimentaryManager;
 
 class ComplimentaryManagerTest {
 
-    private ComplimentaryManager complimentaryManager = new ComplimentaryManager();
+    private final ComplimentaryManager complimentaryManager = new ComplimentaryManager();
 
     @Test
     void 높은_가격_사은품_테스트() {

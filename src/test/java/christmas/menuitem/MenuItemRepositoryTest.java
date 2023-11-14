@@ -42,7 +42,7 @@ class MenuItemRepositoryTest {
     @Test
     void 존재하지_않는_메뉴_아이템_가격_테스트() {
         String nonExistingItemName = "존재하지 않는 메뉴 아이템 이름";
-        int expectedPrice = 0; // 존재하지 않는 메뉴의 경우 가격은 0이어야 합니다.
+        int expectedPrice = 0;
 
         int price = menuItemRepository.findPriceByName(nonExistingItemName);
         assertThat(price).isEqualTo(expectedPrice);

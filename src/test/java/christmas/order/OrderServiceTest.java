@@ -18,7 +18,6 @@ class OrderServiceTest extends NsTest {
 
     @BeforeEach
     void setUp() {
-
         orderService = new OrderService(new OrderValidator());
     }
 
@@ -41,7 +40,10 @@ class OrderServiceTest extends NsTest {
 
         String formattedOrderList = orderService.getOrderList(orderedItems);
 
-        String expectedFormat = "티본스테이크 2개\n" + "크리스마스파스타 1개\n";
+        String expectedFormat = """
+                티본스테이크 2개
+                크리스마스파스타 1개
+                """;
         assertThat(formattedOrderList).isEqualTo(expectedFormat);
     }
 

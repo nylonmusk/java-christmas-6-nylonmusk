@@ -1,6 +1,7 @@
 package christmas.discount;
 
 import christmas.service.DiscountService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,10 +40,12 @@ class DiscountServiceTest {
         String discountDescription = discountService.describeDiscounts(day, dessertQuantity, mainQuantity,
                 totalPriceBeforeDiscount);
 
-        String expectedDescription = "크리스마스 디데이 할인: -3,300원\n"
-                + "평일 할인: -12,138원\n"
-                + "특별 할인: -1,000원\n"
-                + "증정 이벤트: -25,000원\n";
+        String expectedDescription = """
+                크리스마스 디데이 할인: -3,300원
+                평일 할인: -12,138원
+                특별 할인: -1,000원
+                증정 이벤트: -25,000원
+                """;
         assertThat(discountDescription).isEqualTo(expectedDescription);
     }
 
@@ -50,7 +53,7 @@ class DiscountServiceTest {
     void 최소_할인_적격_금액_미달시_할인_없음_테스트() {
         int totalPriceBeforeDiscount = 3000;
         int totalDiscounts = discountService.calculateTotalDiscounts(3, 1, 1, totalPriceBeforeDiscount);
-        assertThat(totalDiscounts).isEqualTo(0);
+        assertThat(totalDiscounts).isZero();
     }
 
     @Test

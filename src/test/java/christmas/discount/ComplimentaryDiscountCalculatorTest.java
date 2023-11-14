@@ -26,6 +26,6 @@ class ComplimentaryDiscountCalculatorTest {
         int belowQualifyingAmount = ComplimentaryItem.CHAMPAGNE.getQualifyingAmount() - 1000;
 
         int calculatedDiscount = discountCalculator.calculate(belowQualifyingAmount);
-        assertThat(calculatedDiscount).isEqualTo(0);
+        assertThat(calculatedDiscount).isZero();
     }
 }

@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ChristmasDiscountCalculatorTest {
 
-    private ChristmasDiscountCalculator discountCalculator = new ChristmasDiscountCalculator();
+    private final ChristmasDiscountCalculator discountCalculator = new ChristmasDiscountCalculator();
 
     @Test
     void 마감일_이후_할인_없음_테스트() {

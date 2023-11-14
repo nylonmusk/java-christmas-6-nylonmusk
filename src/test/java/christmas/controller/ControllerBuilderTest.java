@@ -10,11 +10,12 @@ import christmas.validator.OrderValidator;
 import christmas.view.OutputView;
 import christmas.view.InputView;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ControllerBuilderTest {
 

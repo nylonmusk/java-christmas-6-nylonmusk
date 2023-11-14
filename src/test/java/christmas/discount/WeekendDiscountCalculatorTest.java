@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class WeekendDiscountCalculatorTest {
 
-    private WeekendDiscountCalculator discountCalculator = new WeekendDiscountCalculator();
+    private final WeekendDiscountCalculator discountCalculator = new WeekendDiscountCalculator();
 
     @Test
     void 주말_할인_계산_테스트() {
