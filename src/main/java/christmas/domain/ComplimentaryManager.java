@@ -3,22 +3,29 @@ package christmas.domain;
 import christmas.constant.complimentary.ComplimentaryDescription;
 import christmas.constant.complimentary.ComplimentaryItem;
 import christmas.util.ComplimentaryItemFormatter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ComplimentaryManager {
 
     public String getComplimentary(int totalPriceBeforeDiscount) {
-        StringBuilder complimentaryItems = new StringBuilder();
+        String complimentaryItems = getComplimentaryItems(totalPriceBeforeDiscount);
 
-        for (ComplimentaryItem item : ComplimentaryItem.values()) {
-            if (totalPriceBeforeDiscount >= item.getQualifyingAmount()) {
-                complimentaryItems.append(ComplimentaryItemFormatter.format(item));
-            }
+        if (isComplimentaryAvailable(complimentaryItems)) {
+            return complimentaryItems;
         }
+        return ComplimentaryDescription.NO_COMPLIMENTARY.getDescription();
+    }
 
-        if (complimentaryItems.isEmpty()) {
-            complimentaryItems.append(ComplimentaryDescription.NO_COMPLIMENTARY.getDescription());
-        }
-        return complimentaryItems.toString();
+    private String getComplimentaryItems(int totalPriceBeforeDiscount) {
+        return Arrays.stream(ComplimentaryItem.values())
+                .filter(item -> totalPriceBeforeDiscount >= item.getQualifyingAmount())
+                .map(ComplimentaryItemFormatter::format)
+                .collect(Collectors.joining());
+    }
+
+    private boolean isComplimentaryAvailable(String complimentaryItems) {
+        return !complimentaryItems.isEmpty();
     }
 
 }
