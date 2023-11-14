@@ -1,17 +1,16 @@
 package christmas.domain.discount;
 
 import christmas.constant.complimentary.ComplimentaryItem;
+import christmas.constant.discount.DiscountValue;
 import christmas.constant.menu.Beverage;
 
 public class ComplimentaryDiscountCalculator {
     public int calculate(int totalPriceBeforeDiscount) {
-        int complimentaryDiscount = 0;
+        int complimentaryDiscount = DiscountValue.NO_DISCOUNT.getValue();
 
         for (ComplimentaryItem item : ComplimentaryItem.values()) {
             if (totalPriceBeforeDiscount >= item.getQualifyingAmount()) {
-                int beveragePrice = Beverage.getPrice(item.getName());
-
-                complimentaryDiscount += beveragePrice * item.getQuantity();
+                complimentaryDiscount += Beverage.getPrice(item.getName()) * item.getQuantity();
             }
         }
 
