@@ -5,6 +5,7 @@ import christmas.constant.discount.DiscountValue;
 import christmas.constant.menu.Beverage;
 
 public class ComplimentaryDiscountCalculator {
+
     public int calculate(int totalPriceBeforeDiscount) {
         int complimentaryDiscount = DiscountValue.NO_DISCOUNT.getValue();
 
@@ -16,4 +17,5 @@ public class ComplimentaryDiscountCalculator {
 
         return complimentaryDiscount;
     }
+
 }

@@ -74,8 +74,8 @@ public class DiscountService {
     private String describeChristmasDiscount(int day) {
         int discount = christmasDiscountCalculator.calculate(day);
         if (hasDiscount(discount)) {
-            return DiscountDescription.CHRISTMAS_D_DAY_DISCOUNT.getDescription() + CurrencyFormatter.formatCurrencyWithNewLine(
-                    discount);
+            return DiscountDescription.CHRISTMAS_D_DAY_DISCOUNT.getDescription()
+                    + CurrencyFormatter.formatCurrencyWithNewLine(discount);
         }
         return DiscountDescription.EMPTY.getDescription();
     }
@@ -83,7 +83,8 @@ public class DiscountService {
     private String describeWeekdayDiscount(int dessertQuantity, int day) {
         int discount = weekdayDiscountCalculator.calculate(dessertQuantity, day);
         if (hasDiscount(discount)) {
-            return DiscountDescription.WEEKDAY_DISCOUNT.getDescription() + CurrencyFormatter.formatCurrencyWithNewLine(discount);
+            return DiscountDescription.WEEKDAY_DISCOUNT.getDescription()
+                    + CurrencyFormatter.formatCurrencyWithNewLine(discount);
         }
         return DiscountDescription.EMPTY.getDescription();
     }
@@ -91,7 +92,8 @@ public class DiscountService {
     private String describeWeekendDiscount(int mainQuantity, int day) {
         int discount = weekendDiscountCalculator.calculate(mainQuantity, day);
         if (hasDiscount(discount)) {
-            return DiscountDescription.WEEKEND_DISCOUNT.getDescription() + CurrencyFormatter.formatCurrencyWithNewLine(discount);
+            return DiscountDescription.WEEKEND_DISCOUNT.getDescription()
+                    + CurrencyFormatter.formatCurrencyWithNewLine(discount);
         }
         return DiscountDescription.EMPTY.getDescription();
     }
@@ -99,7 +101,8 @@ public class DiscountService {
     private String describeSpecialDiscount(int day) {
         int discount = specialDiscountCalculator.calculate(day);
         if (hasDiscount(discount)) {
-            return DiscountDescription.SPECIAL_DISCOUNT.getDescription() + CurrencyFormatter.formatCurrencyWithNewLine(discount);
+            return DiscountDescription.SPECIAL_DISCOUNT.getDescription()
+                    + CurrencyFormatter.formatCurrencyWithNewLine(discount);
         }
         return DiscountDescription.EMPTY.getDescription();
     }
@@ -107,8 +110,8 @@ public class DiscountService {
     private String describeComplimentaryDiscount(int totalPriceBeforeDiscount) {
         int discount = complimentaryDiscountCalculator.calculate(totalPriceBeforeDiscount);
         if (hasDiscount(discount)) {
-            return ComplimentaryDescription.COMPLIMENTARY_DISCOUNT.getDescription() + CurrencyFormatter.formatCurrencyWithNewLine(
-                    discount);
+            return ComplimentaryDescription.COMPLIMENTARY_DISCOUNT.getDescription()
+                    + CurrencyFormatter.formatCurrencyWithNewLine(discount);
         }
         return DiscountDescription.EMPTY.getDescription();
     }

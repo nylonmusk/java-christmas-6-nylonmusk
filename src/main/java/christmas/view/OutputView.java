@@ -6,6 +6,7 @@ import christmas.constant.message.OutputViewMessage;
 import christmas.util.CurrencyFormatter;
 
 public class OutputView {
+
     public OutputView() {
     }
 
@@ -41,32 +42,35 @@ public class OutputView {
         println(complimentaryItems);
     }
 
-    public void printDetailBenefits(String discountInformation){
+    public void printDetailBenefits(String discountInformation) {
         println(OutputViewMessage.DETAIL_BENEFITS.getMessage());
         println(discountInformation);
     }
 
     public void printTotalDiscounts(int totalDiscounts) {
         println(OutputViewMessage.TOTAL_DISCOUNTS.getMessage());
-        if (totalDiscounts > DiscountValue.NO_DISCOUNT.getValue()) print("-");
+        if (totalDiscounts > DiscountValue.NO_DISCOUNT.getValue()) {
+            print("-");
+        }
         println(CurrencyFormatter.formatCurrencyWithNewLine(totalDiscounts));
     }
 
-    public void printFinalOrderAmount (int finalPrice){
+    public void printFinalOrderAmount(int finalPrice) {
         println(OutputViewMessage.FINAL_ORDER_AMOUNT.getMessage());
         println(CurrencyFormatter.formatCurrencyWithNewLine(finalPrice));
     }
 
-    public void printBadge (String badge){
+    public void printBadge(String badge) {
         println(OutputViewMessage.EVENT_BADGE.formatWithMonth(CurrentYearMonth.MONTH.getDate()));
         println(badge);
     }
 
-    public void printEventNotice (int totalPriceBeforeDiscount){
+    public void printEventNotice(int totalPriceBeforeDiscount) {
         if (totalPriceBeforeDiscount < DiscountValue.MINIMUM_DISCOUNT_QUALIFYING_AMOUNT.getValue()) {
             newLine();
             println(OutputViewMessage.EVENT_NOTICE.getMessage());
-            println(OutputViewMessage.EVENT_NOTICE_DETAIL.formatWithMoney(CurrencyFormatter.formatCurrency(DiscountValue.MINIMUM_DISCOUNT_QUALIFYING_AMOUNT.getValue())));
+            println(OutputViewMessage.EVENT_NOTICE_DETAIL.formatWithMoney(
+                    CurrencyFormatter.formatCurrency(DiscountValue.MINIMUM_DISCOUNT_QUALIFYING_AMOUNT.getValue())));
         }
     }
 
