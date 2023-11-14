@@ -8,20 +8,17 @@ import christmas.constant.menu.MenuItem;
 import christmas.constant.message.ErrorMessage;
 import christmas.constant.order.OrderLimit;
 import christmas.constant.order.OrderRegex;
-
 import christmas.constant.regex.NumberRegex;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public final class OrderValidator {
+
     public void validate(Map<String, Integer> orderedItems) {
-        if (!areAllItemsValidMenuItems(orderedItems)) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
-        }
-        if (!areQuantitiesValid(orderedItems)) {
+        if (!areAllItemsValidMenuItems(orderedItems) || !areQuantitiesValid(orderedItems)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
         }
 
@@ -37,20 +34,32 @@ public final class OrderValidator {
     public void validateOrderFormat(String orderWithComma) {
         Set<String> uniqueItems = new HashSet<>();
         String[] orderedItems = orderWithComma.split(OrderRegex.COMMA_SPACE.getPattern());
+
         for (String item : orderedItems) {
-            String[] parts = item.split(OrderRegex.HYPHEN.getPattern());
+            validateItemFormat(item);
+            validateItemQuantity(item);
+            validateItemUniqueness(item, uniqueItems);
+        }
+    }
 
-            if (parts.length != 2) {
-                throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_FORMAT.getMessage());
-            }
+    private void validateItemFormat(String item) {
+        String[] parts = item.split(OrderRegex.HYPHEN.getPattern());
+        if (parts.length != 2) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER_FORMAT.getMessage());
+        }
+    }
 
-            if (parts[0].trim().isEmpty() || !parts[1].trim().matches(NumberRegex.DIGITS.getPattern())) {
-                throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
-            }
+    private void validateItemQuantity(String item) {
+        String quantity = item.split(OrderRegex.HYPHEN.getPattern())[1].trim();
+        if (!quantity.matches(NumberRegex.DIGITS.getPattern())) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_ORDER.getMessage());
+        }
+    }
 
-            if (!uniqueItems.add(parts[0].trim())) {
-                throw new IllegalArgumentException(ErrorMessage.DUPLICATE_MENU_ITEM.getMessage());
-            }
+    private void validateItemUniqueness(String item, Set<String> uniqueItems) {
+        String itemName = item.split(OrderRegex.HYPHEN.getPattern())[0].trim();
+        if (!uniqueItems.add(itemName)) {
+            throw new IllegalArgumentException(ErrorMessage.DUPLICATE_MENU_ITEM.getMessage());
         }
     }
 
@@ -60,14 +69,9 @@ public final class OrderValidator {
     }
 
     private boolean isMenuItem(String itemName) {
-        return isItemInMenu(itemName, Appetizer.values()) ||
-                isItemInMenu(itemName, Beverage.values()) ||
-                isItemInMenu(itemName, Dessert.values()) ||
-                isItemInMenu(itemName, MainCourse.values());
-    }
-
-    private boolean isItemInMenu(String itemName, MenuItem[] menuItems) {
-        return Stream.of(menuItems)
+        MenuItem[][] allMenuItems = {Appetizer.values(), Beverage.values(), Dessert.values(), MainCourse.values()};
+        return Arrays.stream(allMenuItems)
+                .flatMap(Arrays::stream)
                 .anyMatch(menuItem -> menuItem.getName().equals(itemName));
     }
 
